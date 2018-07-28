@@ -14,3 +14,5 @@ yarn-error.log*
 
 .idea/
 package-lock.json
+
+/config/credentials_dev.js
