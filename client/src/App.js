@@ -33,7 +33,7 @@ class App extends Component {
 
     formData.append('selectedFile', selectedFile);
     axios
-      .post('http://localhost:3000/upload', formData
+      .post('http://localhost:5000/upload', formData
         // , {
         // onUploadProgress: progressEvent => {
         //   console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
