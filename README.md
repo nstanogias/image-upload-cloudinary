@@ -1,7 +1,7 @@
-# File Upload to AWS S3 using Node, React and MulterS3
+# File Upload to Cloudinary using Node and React
 
 ## Steps to run
-You need to put your aws credentials first in the app.js file
+You need to put your cloudinary credentials first in the .env file
 
 1. npm install
 2. npm start
