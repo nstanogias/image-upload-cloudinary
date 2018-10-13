@@ -30,25 +30,19 @@ class App extends Component {
     e.preventDefault();
     const {selectedFile} = this.state;
     let formData = new FormData();
-
+    const config = {
+      header: {'content-type':'multipart/form-data'}
+    }
     formData.append('selectedFile', selectedFile);
     axios
-      .post('/upload', formData
-        // , {
-        // onUploadProgress: progressEvent => {
-        //   console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
-        // }}
-      )
+      .post('/uploadimage', formData, config)
       .then((result) => {
         console.log("result is", result);
-        this.setState({fileToShow: result.data.file, isLoading:false});
+        this.setState({fileToShow: result.data.url, isLoading:false});
       })
       .catch(err => {
-        if(err.response.data.msg.code !== null && err.response.data.msg.code !== undefined) {
-          this.setState({error: "File size should be less that 1MB", isLoading: false});
-        } else {
-          this.setState({error: err.response.data.msg, isLoading: false});
-        }
+        console.log(err.response);
+          this.setState({error: err.response.data.error, isLoading: false});
       });
   };
 

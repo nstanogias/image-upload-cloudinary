@@ -5,11 +5,21 @@ const aws = require('aws-sdk');
 const bodyParser = require('body-parser');
 const credentials = require('./config/credentials');
 const path = require('path');
+const formidable = require('express-formidable');
+const cloudinary = require('cloudinary');
+
+require('dotenv').config();
 
 aws.config.update({
   secretAccessKey: credentials.secretAccessKey,
   accessKeyId: credentials.accessKeyId,
   region: credentials.region
+});
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
 });
 
 // Init app
@@ -64,7 +74,26 @@ app.post('/upload', (req, res) => {
   });
 });
 
-app.get('/test', (req, res) => res.json({ msg: 'It Works' }));
+app.post('/uploadimage', formidable(), (req, res) => {
+  cloudinary.uploader.upload(req.files.selectedFile.path, (result) =>
+    {
+      console.log(result);
+      if(result.error) {
+        res.status(400).send({
+          error: result.error.message
+        })
+      }
+      res.status(200).send({
+        public_id: result.public_id,
+        url: result.url
+      })
+    },
+    {
+      public_id: `${Date.now()}`,
+      resource_type: 'auto',
+      allowed_formats: ['jpg', 'jpeg', 'png']
+    })
+});
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {
