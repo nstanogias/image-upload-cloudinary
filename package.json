@@ -21,6 +21,6 @@
     "express": "^4.16.3",
     "express-formidable": "^1.0.0",
     "multer": "^1.3.1",
-    "multer-s3": "^2.7.0",
+    "multer-s3": "^2.7.0"
   }
 }
